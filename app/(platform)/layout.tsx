@@ -1,4 +1,5 @@
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 
 export default function PlatformLayout({
   children,
@@ -7,9 +8,8 @@ export default function PlatformLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
+      <Toaster />
+      {children}
     </ClerkProvider>
   );
 }
