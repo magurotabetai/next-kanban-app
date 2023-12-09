@@ -13,7 +13,7 @@ generator client {
 
 model Board {
   id    String @id @default(uuid())
-  ordId String
+  orgId String
 
   title         String
   imageId       String
