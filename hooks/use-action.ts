@@ -20,7 +20,7 @@ export const useAction = <TInput, TOutput>(
   >(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [data, setData] = useState<TOutput | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const execute = useCallback(
     async (input: TInput) => {
@@ -55,10 +55,10 @@ export const useAction = <TInput, TOutput>(
   );
 
   return {
+    execute,
     fieldErrors,
     error,
     data,
     isLoading,
-    execute,
   };
 };
