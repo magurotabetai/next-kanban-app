@@ -4,16 +4,31 @@ import { Button } from "@/components/ui/button";
 import { Board } from "@prisma/client";
 import { FormInput } from "@/components/form/form-input";
 import { ElementRef, useRef, useState } from "react";
+import { toast } from "sonner";
+import { useAction } from "@/hooks/use-action";
+import { updateBoard } from "@/actions/update-board";
 
 interface BoardTitleFormProps {
   data: Board;
 }
 
 export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
+  const { execute } = useAction(updateBoard, {
+    onSuccess: (data) => {
+      toast.success("Board updated!");
+      setTitle(data.title);
+      disableEditing();
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
+
   const formRef = useRef<ElementRef<"form">>(null);
   const inputRef = useRef<ElementRef<"input">>(null);
 
   const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(data.title);
 
   const enableEditing = () => {
     setIsEditing(true);
@@ -29,7 +44,11 @@ export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
 
   const onSubmit = (formData: FormData) => {
     const title = formData.get("title") as string;
-    console.log({ title });
+
+    execute({
+      id: data.id,
+      title,
+    });
   };
 
   const onBlur = () => {
@@ -47,8 +66,8 @@ export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
           ref={inputRef}
           className="text-lg font-bold px-[7px] py-1 h-7 bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none"
           id="title"
-          onBlur={() => {}}
-          defaultValue={data.title}
+          onBlur={onBlur}
+          defaultValue={title}
         />
       </form>
     );
@@ -60,7 +79,7 @@ export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
       variant="transparent"
       onClick={enableEditing}
     >
-      {data.title}
+      {title}
     </Button>
   );
 };
