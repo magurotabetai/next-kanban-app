@@ -45,7 +45,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
     const onTextareakeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (
       e
     ) => {
-      if (e.key === "Enter" && e.metaKey) {
+      if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         formRef.current?.requestSubmit();
       }
