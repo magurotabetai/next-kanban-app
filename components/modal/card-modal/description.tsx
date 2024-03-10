@@ -51,6 +51,7 @@ export const Description = ({ card }: DescriptionProps) => {
       toast.success(`Card "${data.title}" updated`);
 
       queryClient.invalidateQueries({ queryKey: ["card", data.id] });
+      queryClient.invalidateQueries({ queryKey: ["card-logs", data.id] });
       disableEditing();
     },
     onError: (error) => {
