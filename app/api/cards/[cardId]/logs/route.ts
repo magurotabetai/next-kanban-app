@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
-import { ENTITY_TYPE } from "@prisma/client";
+import { ENTITY_TYPE } from "@/lib/enums";
 import { NextResponse } from "next/server";
 
 export async function GET(
