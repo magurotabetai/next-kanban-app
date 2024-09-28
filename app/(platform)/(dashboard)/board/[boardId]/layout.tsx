@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import { BoardNavBar } from "./_components/board-navbar";

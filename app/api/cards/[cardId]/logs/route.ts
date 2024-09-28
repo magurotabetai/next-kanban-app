@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { ENTITY_TYPE } from "@prisma/client";
 import { NextResponse } from "next/server";

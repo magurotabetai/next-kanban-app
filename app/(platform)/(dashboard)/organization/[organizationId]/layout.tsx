@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { OrgControl } from "./_components/org-control";
 
 export const generateMetadata = async () => {
