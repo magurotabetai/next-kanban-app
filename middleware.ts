@@ -1,4 +1,4 @@
-import { clerkMiddleware, createRouteMatcher, getAuth } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 // This example protects all routes including api/trpc routes
@@ -32,7 +32,7 @@ import { NextResponse } from "next/server";
 const isPublicRoute = createRouteMatcher(["/", "/api/webhook"]);
 
 export default clerkMiddleware((auth, request) => {
-  const { userId, orgId } = getAuth(request);
+  const { userId, orgId } = auth();
   const pathname = request.nextUrl.pathname;
 
   // 1. Public route but user is authenticated
