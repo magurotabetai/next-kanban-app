@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider     = "mysql"
+  provider     = "sqlite"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -17,10 +17,10 @@ model Board {
 
   title         String
   imageId       String
-  imageThumbUrl String @db.Text
-  imageFullUrl  String @db.Text
-  imageUserName String @db.Text
-  imageLinkHTML String @db.Text
+  imageThumbUrl String 
+  imageFullUrl  String 
+  imageUserName String 
+  imageLinkHTML String 
 
   lists List[]
 
@@ -47,7 +47,7 @@ model List {
 model Card {
   id          String  @id @default(uuid())
   title       String
-  description String? @db.Text
+  description String? 
   order       Int
 
   listId String
@@ -59,29 +59,29 @@ model Card {
   @@index([listId])
 }
 
-enum ACTION {
-  CREATE
-  UPDATE
-  DELETE
-}
+// enum ACTION {
+//   CREATE
+//   UPDATE
+//   DELETE
+// }
 
-enum ENTITY_TYPE {
-  BOARD
-  LIST
-  CARD
-}
+// enum ENTITY_TYPE {
+//   BOARD
+//   LIST
+//   CARD
+// }
 
 model AuditLog {
   id    String @id @default(uuid())
   orgId String
 
-  action      ACTION
+  action      String // "CREATE" | "UPDATE" | "DELETE"
   entityId    String
-  entityType  ENTITY_TYPE
+  entityType  String // "BOARD" | "LIST" | "CARD"
   entityTitle String
   userId      String
-  userImage   String      @db.Text
-  userName    String      @db.Text
+  userImage   String      
+  userName    String      
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
