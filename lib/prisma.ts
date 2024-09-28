@@ -1,7 +1,24 @@
 import { PrismaClient } from "@prisma/client";
 
 const prismaClientSingleton = () => {
-  return new PrismaClient();
+  return new PrismaClient().$extends({
+    result: {
+      auditLog: {
+        action: {
+          needs: { action: true },
+          compute(auditLog) {
+            return auditLog.action as 'CREATE' | 'UPDATE' | 'DELETE';
+          },
+        },
+        entityType: {
+          needs: { entityType: true },
+          compute(auditLog) {
+            return auditLog.entityType as 'BOARD' | 'LIST' | 'CARD';
+          },
+        },
+      },
+    },
+  });
 };
 
 declare global {
