@@ -6,9 +6,10 @@ import { BoardNavBar } from "./_components/board-navbar";
 export async function generateMetadata({
   params,
 }: {
-  params: { boardId: string };
+  params: Promise<{ boardId: string }>;
 }) {
   const { orgId } = await auth();
+  const { boardId } = await params
 
   if (!orgId) {
     return {
@@ -18,7 +19,7 @@ export async function generateMetadata({
 
   const board = await prisma.board.findUnique({
     where: {
-      id: params.boardId,
+      id: boardId,
       orgId,
     },
   });
