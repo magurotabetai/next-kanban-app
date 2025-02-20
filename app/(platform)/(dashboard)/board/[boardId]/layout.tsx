@@ -34,9 +34,10 @@ const BoardIdLayout = async ({
   params,
 }: {
   children: React.ReactNode;
-  params: { boardId: string };
+  params: Promise<{ boardId: string }>;
 }) => {
   const { orgId } = await auth();
+  const { boardId } = await params
 
   if (!orgId) {
     return redirect("/select-org");
@@ -44,7 +45,7 @@ const BoardIdLayout = async ({
 
   const board = await prisma.board.findUnique({
     where: {
-      id: params.boardId,
+      id: boardId,
       orgId,
     },
   });
