@@ -8,7 +8,7 @@ export async function GET(
   { params }: { params: Promise<{ cardId: string }>; }
 ) {
   try {
-    const { userId, orgId } = auth();
+    const { userId, orgId } = await auth();
 
     if (!userId || !orgId) {
       return new Response("Unauthorized", { status: 401 });

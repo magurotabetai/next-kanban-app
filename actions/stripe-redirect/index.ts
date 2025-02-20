@@ -12,7 +12,7 @@ import { absoluteUrl } from "@/lib/utils";
 import { stripe } from "@/lib/stripe";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth();
+  const { userId, orgId } = await auth();
   const user = await currentUser();
 
   if (!userId || !orgId || !user) {

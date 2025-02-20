@@ -12,7 +12,7 @@ import { hasAvailableCount, incrementAvailableCount } from "@/lib/org-limit";
 import { checkSubscription } from "@/lib/subscription";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth();
+  const { userId, orgId } = await auth();
 
   if (!userId || !orgId) {
     return {
