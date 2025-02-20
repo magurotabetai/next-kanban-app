@@ -1,5 +1,4 @@
-import { AuditLog } from "@prisma/client";
-import { ACTION } from "./enums";
+import { AuditLog, ACTION } from "@prisma/client";
 export const generateLogMessage = (log: AuditLog) => {
   const { action, entityType, entityTitle } = log;
 
