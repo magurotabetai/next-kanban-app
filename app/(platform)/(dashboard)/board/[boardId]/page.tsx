@@ -4,9 +4,7 @@ import { redirect } from "next/navigation";
 import { ListContainer } from "./_components/list-container";
 
 interface BoardIdPageProps {
-  params: {
-    boardId: string;
-  };
+  params: Promise<{ boardId: string }>;
 }
 
 const BoardIdPage = async ({ params }: BoardIdPageProps) => {
@@ -16,9 +14,11 @@ const BoardIdPage = async ({ params }: BoardIdPageProps) => {
     redirect("/select-org");
   }
 
+  const { boardId } = await params
+
   const lists = await prisma.list.findMany({
     where: {
-      boardId: params.boardId,
+      boardId,
       board: {
         orgId,
       },
@@ -37,7 +37,7 @@ const BoardIdPage = async ({ params }: BoardIdPageProps) => {
 
   return (
     <div className="p-4 h-full overflow-x-auto">
-      <ListContainer data={lists} boardId={params.boardId} />
+      <ListContainer data={lists} boardId={boardId} />
       Board ID!
     </div>
   );
