@@ -1,23 +1,25 @@
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
-import { ENTITY_TYPE } from "@/lib/enums";
+import { ENTITY_TYPE } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { cardId: string } }
+  _request: Request,
+  { params }: { params: Promise<{ cardId: string }>; }
 ) {
   try {
-    const { userId, orgId } = auth();
+    const { userId, orgId } = await auth();
 
     if (!userId || !orgId) {
       return new Response("Unauthorized", { status: 401 });
     }
 
+    const { cardId } = await params
+
     const auditLogs = await prisma.auditLog.findMany({
       where: {
         orgId,
-        entityId: params.cardId,
+        entityId: cardId,
         entityType: ENTITY_TYPE.CARD,
       },
       orderBy: {

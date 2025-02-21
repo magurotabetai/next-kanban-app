@@ -11,7 +11,7 @@ import { MAX_FREE_BOARDS } from "@/constants/board";
 import { checkSubscription } from "@/lib/subscription";
 
 export const BoardList = async () => {
-  const { orgId } = auth();
+  const { orgId } = await auth();
 
   if (!orgId) {
     return redirect("/select-org");

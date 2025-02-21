@@ -1,24 +1,16 @@
 import { PrismaClient } from "@prisma/client";
+import { PrismaLibSQL } from "@prisma/adapter-libsql";
+import { createClient } from "@libsql/client";
+
+const libsql = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
+const adapter = new PrismaLibSQL(libsql);
 
 const prismaClientSingleton = () => {
-  return new PrismaClient().$extends({
-    result: {
-      auditLog: {
-        action: {
-          needs: { action: true },
-          compute(auditLog) {
-            return auditLog.action as 'CREATE' | 'UPDATE' | 'DELETE';
-          },
-        },
-        entityType: {
-          needs: { entityType: true },
-          compute(auditLog) {
-            return auditLog.entityType as 'BOARD' | 'LIST' | 'CARD';
-          },
-        },
-      },
-    },
-  });
+  return new PrismaClient({ adapter });
 };
 
 declare global {

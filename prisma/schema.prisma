@@ -3,12 +3,13 @@
 
 datasource db {
   provider     = "sqlite"
-  url          = env("DATABASE_URL")
+  url          = "file:./dev.db"
   relationMode = "prisma"
 }
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 model Board {
@@ -17,10 +18,10 @@ model Board {
 
   title         String
   imageId       String
-  imageThumbUrl String 
-  imageFullUrl  String 
-  imageUserName String 
-  imageLinkHTML String 
+  imageThumbUrl String
+  imageFullUrl  String
+  imageUserName String
+  imageLinkHTML String
 
   lists List[]
 
@@ -47,7 +48,7 @@ model List {
 model Card {
   id          String  @id @default(uuid())
   title       String
-  description String? 
+  description String?
   order       Int
 
   listId String
@@ -59,29 +60,29 @@ model Card {
   @@index([listId])
 }
 
-// enum ACTION {
-//   CREATE
-//   UPDATE
-//   DELETE
-// }
+enum ACTION {
+  CREATE
+  UPDATE
+  DELETE
+}
 
-// enum ENTITY_TYPE {
-//   BOARD
-//   LIST
-//   CARD
-// }
+enum ENTITY_TYPE {
+  BOARD
+  LIST
+  CARD
+}
 
 model AuditLog {
   id    String @id @default(uuid())
   orgId String
 
-  action      String // "CREATE" | "UPDATE" | "DELETE"
+  action      ACTION
   entityId    String
-  entityType  String // "BOARD" | "LIST" | "CARD"
+  entityType  ENTITY_TYPE
   entityTitle String
   userId      String
-  userImage   String      
-  userName    String      
+  userImage   String
+  userName    String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

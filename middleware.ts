@@ -31,8 +31,8 @@ import { NextResponse } from "next/server";
 
 const isPublicRoute = createRouteMatcher(["/", "/api/webhook"]);
 
-export default clerkMiddleware((auth, request) => {
-  const { userId, orgId } = auth();
+export default clerkMiddleware(async (auth, request) => {
+  const { userId, orgId } = await auth();
   const pathname = request.nextUrl.pathname;
 
   // 1. Public route but user is authenticated
@@ -49,7 +49,7 @@ export default clerkMiddleware((auth, request) => {
 
   // 2. Private route but user is not authenticated
   if (!userId && !isPublicRoute(request)) {
-    auth().redirectToSignIn({ returnBackUrl: request.url });
+    (await auth()).redirectToSignIn({ returnBackUrl: request.url });
   }
 
   // 3. Authenticated user but no org selected
