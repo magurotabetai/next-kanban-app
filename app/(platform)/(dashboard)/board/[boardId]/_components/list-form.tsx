@@ -49,6 +49,7 @@ export const ListForm = () => {
   };
 
   useEventListener("keydown", onKeyDown);
+  // @ts-ignore
   useOnClickOutside(formRef, disableEditing);
 
   const onSubmit = (formData: FormData) => {

@@ -44,6 +44,7 @@ export const Description = ({ card }: DescriptionProps) => {
   };
 
   useEventListener("keydown", onKeyDown);
+  // @ts-ignore
   useOnClickOutside(formRef, disableEditing);
 
   const { execute, fieldErrors } = useAction(updateCard, {

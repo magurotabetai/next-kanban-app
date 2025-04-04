@@ -39,6 +39,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
       }
     };
 
+    // @ts-ignore
     useOnClickOutside(formRef, disableEditing);
     useEventListener("keydown", onKeyDown);
 
