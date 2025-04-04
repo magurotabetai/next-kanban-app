@@ -9,6 +9,10 @@ export async function POST(req: Request) {
 
   let event: Stripe.Event;
 
+  if (!stripe) {
+    return new NextResponse("Stripe not initialized", { status: 400 });
+  }
+
   try {
     event = stripe.webhooks.constructEvent(
       body,
