@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { forwardRef, useRef, ElementRef, KeyboardEventHandler } from "react";
+import { forwardRef, useRef, ComponentRef, KeyboardEventHandler } from "react";
 import { Plus, X } from "lucide-react";
 import { FormTextArea } from "@/components/form/form-textarea";
 import { FormSubmit } from "@/components/form/form-submit";
@@ -21,7 +21,7 @@ interface CardFormProps {
 export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
   ({ listId, isEditing, enableEditing, disableEditing }, ref) => {
     const params = useParams();
-    const formRef = useRef<ElementRef<"form">>(null);
+    const formRef = useRef<ComponentRef<"form">>(null);
 
     const { execute, fieldErrors } = useAction(createCard, {
       onSuccess: () => {

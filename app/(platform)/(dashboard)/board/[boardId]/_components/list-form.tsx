@@ -2,7 +2,7 @@
 
 import { Plus, X } from "lucide-react";
 import { ListWrapper } from "./list-wrapper";
-import { ElementRef, useRef, useState } from "react";
+import { ComponentRef, useRef, useState } from "react";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
 import { FormInput } from "@/components/form/form-input";
 import { useParams, useRouter } from "next/navigation";
@@ -17,8 +17,8 @@ export const ListForm = () => {
   const router = useRouter();
   const params = useParams();
 
-  const formRef = useRef<ElementRef<"form">>(null);
-  const inputRef = useRef<ElementRef<"input">>(null);
+  const formRef = useRef<ComponentRef<"form">>(null);
+  const inputRef = useRef<ComponentRef<"input">>(null);
 
   const [isEditing, setIsEditing] = useState(false);
 

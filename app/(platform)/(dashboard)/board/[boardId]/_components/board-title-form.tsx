@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Board } from "@prisma/client";
 import { FormInput } from "@/components/form/form-input";
-import { ElementRef, useRef, useState } from "react";
+import { ComponentRef, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useAction } from "@/hooks/use-action";
 import { updateBoard } from "@/actions/update-board";
@@ -24,8 +24,8 @@ export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
     },
   });
 
-  const formRef = useRef<ElementRef<"form">>(null);
-  const inputRef = useRef<ElementRef<"input">>(null);
+  const formRef = useRef<ComponentRef<"form">>(null);
+  const inputRef = useRef<ComponentRef<"input">>(null);
 
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(data.title);
