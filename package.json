@@ -12,7 +12,7 @@
   "dependencies": {
     "@clerk/nextjs": "^6.12.12",
     "@hello-pangea/dnd": "^18.0.1",
-    "@libsql/client": "^0.8.1",
+    "@libsql/client": "^0.15.0",
     "@prisma/adapter-libsql": "^6.5.0",
     "@prisma/client": "6",
     "@radix-ui/react-accordion": "^1.2.3",
