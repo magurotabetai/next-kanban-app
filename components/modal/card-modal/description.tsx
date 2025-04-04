@@ -8,7 +8,7 @@ import { CardWithList } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { AlignLeft } from "lucide-react";
 import { useParams } from "next/navigation";
-import { ElementRef, useRef, useState } from "react";
+import { ComponentRef, useRef, useState } from "react";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
 import { useAction } from "@/hooks/use-action";
 import { updateCard } from "@/actions/update-card";
@@ -23,8 +23,8 @@ export const Description = ({ card }: DescriptionProps) => {
   const params = useParams();
   const [isEditing, setIsEditing] = useState(false);
 
-  const formRef = useRef<ElementRef<"form">>(null);
-  const textareaRef = useRef<ElementRef<"textarea">>(null);
+  const formRef = useRef<ComponentRef<"form">>(null);
+  const textareaRef = useRef<ComponentRef<"textarea">>(null);
 
   const enableEditing = () => {
     setIsEditing(true);
@@ -44,6 +44,7 @@ export const Description = ({ card }: DescriptionProps) => {
   };
 
   useEventListener("keydown", onKeyDown);
+  // @ts-ignore
   useOnClickOutside(formRef, disableEditing);
 
   const { execute, fieldErrors } = useAction(updateCard, {

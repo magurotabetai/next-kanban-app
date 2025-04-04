@@ -14,7 +14,7 @@ import { Button } from "../ui/button";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 import { FormPicker } from "./form-picker";
-import { ElementRef, useRef } from "react";
+import { ComponentRef, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useProModal } from "@/hooks/use-pro-modal";
 
@@ -32,7 +32,7 @@ export const FormPopover = ({
   sideOffset = 0,
 }: FormPopoverProps) => {
   const router = useRouter();
-  const closeRef = useRef<ElementRef<"button">>(null);
+  const closeRef = useRef<ComponentRef<"button">>(null);
   const proModal = useProModal();
 
   const { execute, fieldErrors } = useAction(createBoard, {

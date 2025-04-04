@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, ElementRef } from "react";
+import { useRef, useState, ComponentRef } from "react";
 import { ListWithCards } from "@/types";
 import { useEventListener } from "usehooks-ts";
 import { FormInput } from "@/components/form/form-input";
@@ -17,8 +17,8 @@ interface ListHeaderProps {
 export const ListHeader = ({ data, onAddCard }: ListHeaderProps) => {
   const [title, setTitle] = useState(data.title);
   const [isEditing, setIsEditing] = useState(false);
-  const formRef = useRef<ElementRef<"form">>(null);
-  const inputRef = useRef<ElementRef<"input">>(null);
+  const formRef = useRef<ComponentRef<"form">>(null);
+  const inputRef = useRef<ComponentRef<"input">>(null);
 
   const enableEditing = () => {
     setIsEditing(true);

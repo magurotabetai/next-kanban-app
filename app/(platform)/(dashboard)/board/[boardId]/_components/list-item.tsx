@@ -2,7 +2,7 @@
 
 import { ListWithCards } from "@/types";
 import { ListHeader } from "./list-header";
-import { ElementRef, useRef, useState } from "react";
+import { ComponentRef, useRef, useState } from "react";
 import { CardForm } from "./card-form";
 import { cn } from "@/lib/utils";
 import { CardItem } from "./card-item";
@@ -14,7 +14,7 @@ interface ListItemProps {
 }
 
 export const ListItem = ({ data, index }: ListItemProps) => {
-  const textareaRef = useRef<ElementRef<"textarea">>(null);
+  const textareaRef = useRef<ComponentRef<"textarea">>(null);
   const [isEditing, setIsEditing] = useState(false);
 
   const disableEditing = () => {

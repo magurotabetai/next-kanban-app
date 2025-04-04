@@ -15,7 +15,7 @@ import { useAction } from "@/hooks/use-action";
 import { deleteList } from "@/actions/delete-list";
 import { copyList } from "@/actions/copy-list";
 import { toast } from "sonner";
-import { ElementRef, useRef } from "react";
+import { ComponentRef, useRef } from "react";
 
 interface ListOptionsProps {
   data: ListWithCards;
@@ -23,7 +23,7 @@ interface ListOptionsProps {
 }
 
 export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
-  const closeRef = useRef<ElementRef<"button">>(null);
+  const closeRef = useRef<ComponentRef<"button">>(null);
 
   const { execute: executeDelete } = useAction(deleteList, {
     onSuccess: (data) => {

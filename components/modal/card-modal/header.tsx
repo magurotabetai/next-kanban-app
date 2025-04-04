@@ -6,7 +6,7 @@ import { CardWithList } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { Layout } from "lucide-react";
 import { useParams } from "next/navigation";
-import { ElementRef, useRef, useState } from "react";
+import { ComponentRef, useRef, useState } from "react";
 import { useAction } from "@/hooks/use-action";
 import { updateCard } from "@/actions/update-card";
 import { toast } from "sonner";
@@ -33,7 +33,7 @@ export const Header = ({ data }: HeaderProps) => {
     },
   });
 
-  const inputRef = useRef<ElementRef<"input">>(null);
+  const inputRef = useRef<ComponentRef<"input">>(null);
 
   const onBlur = () => {
     inputRef.current?.form?.requestSubmit();
