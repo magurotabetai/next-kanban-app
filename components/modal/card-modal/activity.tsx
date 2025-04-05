@@ -2,8 +2,11 @@
 
 import { ActivityItem } from "@/components/activity-item";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AuditLog } from "@prisma/client";
 import { ActivityIcon } from "lucide-react";
+import { InferSelectModel } from "drizzle-orm";
+import { auditLogs } from "@/lib/db/schema";
+
+type AuditLog = InferSelectModel<typeof auditLogs>;
 
 interface ActivityProps {
   auditLogs: AuditLog[];

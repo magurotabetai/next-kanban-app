@@ -1,6 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
-import prisma from "@/lib/prisma";
+import db from "@/lib/db";
+import { orgLimits } from "@/lib/db/schema";
 import { MAX_FREE_BOARDS } from "@/constants/board";
+import { eq } from "drizzle-orm";
 
 export const incrementAvailableCount = async () => {
   const { orgId } = await auth();
@@ -9,29 +11,21 @@ export const incrementAvailableCount = async () => {
     throw new Error("Unauthorized");
   }
 
-  const orgLimit = await prisma.orgLimit.findUnique({
-    where: {
-      orgId,
-    },
+  const orgLimit = await db.query.orgLimits.findFirst({
+    where: eq(orgLimits.orgId, orgId),
   });
 
   if (orgLimit) {
-    await prisma.orgLimit.update({
-      where: {
-        id: orgLimit.id,
-      },
-      data: {
-        count: {
-          increment: 1,
-        },
-      },
-    });
+    await db
+      .update(orgLimits)
+      .set({
+        count: orgLimit.count + 1,
+      })
+      .where(eq(orgLimits.id, orgLimit.id));
   } else {
-    await prisma.orgLimit.create({
-      data: {
-        orgId,
-        count: 1,
-      },
+    await db.insert(orgLimits).values({
+      orgId,
+      count: 1,
     });
   }
 };
@@ -43,29 +37,21 @@ export const decreaseAvailableCount = async () => {
     throw new Error("Unauthorized");
   }
 
-  const orgLimit = await prisma.orgLimit.findUnique({
-    where: {
-      orgId,
-    },
+  const orgLimit = await db.query.orgLimits.findFirst({
+    where: eq(orgLimits.orgId, orgId),
   });
 
   if (orgLimit) {
-    await prisma.orgLimit.update({
-      where: {
-        id: orgLimit.id,
-      },
-      data: {
-        count: {
-          decrement: 1,
-        },
-      },
-    });
+    await db
+      .update(orgLimits)
+      .set({
+        count: orgLimit.count - 1,
+      })
+      .where(eq(orgLimits.id, orgLimit.id));
   } else {
-    await prisma.orgLimit.create({
-      data: {
-        orgId,
-        count: 1,
-      },
+    await db.insert(orgLimits).values({
+      orgId,
+      count: 1,
     });
   }
 };
@@ -77,10 +63,8 @@ export const hasAvailableCount = async () => {
     throw new Error("Unauthorized");
   }
 
-  const orgLimit = await prisma.orgLimit.findUnique({
-    where: {
-      orgId,
-    },
+  const orgLimit = await db.query.orgLimits.findFirst({
+    where: eq(orgLimits.orgId, orgId),
   });
 
   if (!orgLimit || orgLimit.count < MAX_FREE_BOARDS) {
@@ -97,10 +81,8 @@ export const getAvailableCount = async () => {
     return 0;
   }
 
-  const orgLimit = await prisma.orgLimit.findUnique({
-    where: {
-      orgId,
-    },
+  const orgLimit = await db.query.orgLimits.findFirst({
+    where: eq(orgLimits.orgId, orgId),
   });
 
   if (!orgLimit) {

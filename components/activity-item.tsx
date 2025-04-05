@@ -1,7 +1,10 @@
 import { format } from "date-fns";
-import { AuditLog } from "@prisma/client";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { generateLogMessage } from "@/lib/generate-log-message";
+import { InferSelectModel } from "drizzle-orm";
+import { auditLogs } from "@/lib/db/schema";
+
+type AuditLog = InferSelectModel<typeof auditLogs>;
 
 interface ActivityProps {
   auditLog: AuditLog;

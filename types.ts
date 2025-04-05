@@ -1,4 +1,8 @@
-import { Card, List } from "@prisma/client";
+import { InferSelectModel } from "drizzle-orm";
+import { cards, lists } from "@/lib/db/schema";
+
+export type List = InferSelectModel<typeof lists>;
+export type Card = InferSelectModel<typeof cards>;
 
 export type ListWithCards = List & {
   cards: Card[];

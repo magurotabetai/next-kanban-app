@@ -1,6 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
-import prisma from "@/lib/prisma";
+import db from "@/lib/db";
 import { NextResponse } from "next/server";
+import { cards, lists, boards } from "@/lib/db/schema";
+import { eq, and } from "drizzle-orm";
 
 export async function GET(
   req: Request,
@@ -13,20 +15,16 @@ export async function GET(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { cardId } = await params
+    const { cardId } = await params;
 
-    const card = await prisma.card.findUnique({
-      where: {
-        id: cardId,
+    const card = await db.query.cards.findFirst({
+      where: and(
+        eq(cards.id, cardId),
+        eq(boards.orgId, orgId)
+      ),
+      with: {
         list: {
-          board: {
-            orgId,
-          },
-        },
-      },
-      include: {
-        list: {
-          select: {
+          columns: {
             title: true,
           },
         },

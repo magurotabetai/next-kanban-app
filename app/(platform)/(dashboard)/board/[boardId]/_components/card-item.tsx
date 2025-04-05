@@ -1,8 +1,11 @@
 "use client";
 
-import { Card } from "@prisma/client";
 import { Draggable } from "@hello-pangea/dnd";
 import { useCardModal } from "@/hooks/use-card-modal";
+import { InferSelectModel } from "drizzle-orm";
+import { cards } from "@/lib/db/schema";
+
+type Card = InferSelectModel<typeof cards>;
 
 interface CardItemProps {
   data: Card;

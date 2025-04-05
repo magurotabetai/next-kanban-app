@@ -1,5 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
-import prisma from "@/lib/prisma";
+import db from "@/lib/db";
+import { orgSubscriptions } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 
 const DAY_IN_MS = 86_400_000;
 
@@ -10,16 +12,8 @@ export const checkSubscription = async () => {
     return false;
   }
 
-  const orgSubscription = await prisma.orgSubscription.findUnique({
-    where: {
-      orgId,
-    },
-    select: {
-      stripeSubscriptionId: true,
-      stripeCustomerId: true,
-      stripePriceId: true,
-      stripeCurrentPeriodEnd: true,
-    },
+  const orgSubscription = await db.query.orgSubscriptions.findFirst({
+    where: eq(orgSubscriptions.orgId, orgId),
   });
 
   if (!orgSubscription) {

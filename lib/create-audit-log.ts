@@ -1,13 +1,13 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { ACTION, ENTITY_TYPE } from "@prisma/client";
-
-import prisma from "@/lib/prisma";
+import db from "@/lib/db";
+import { auditLogs } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 
 interface Props {
   entityId: string;
-  entityType: ENTITY_TYPE;
+  entityType: "BOARD" | "LIST" | "CARD";
   entityTitle: string;
-  action: ACTION;
+  action: "CREATE" | "UPDATE" | "DELETE";
 }
 
 export const createAuditLog = async (props: Props) => {
@@ -20,17 +20,15 @@ export const createAuditLog = async (props: Props) => {
     }
 
     const { entityId, entityType, entityTitle, action } = props;
-    await prisma.auditLog.create({
-      data: {
-        action,
-        entityType,
-        entityId,
-        entityTitle,
-        orgId,
-        userId: user.id,
-        userImage: user.imageUrl,
-        userName: user.firstName + " " + user.lastName,
-      },
+    await db.insert(auditLogs).values({
+      action,
+      entityType,
+      entityId,
+      entityTitle,
+      orgId,
+      userId: user.id,
+      userImage: user.imageUrl,
+      userName: user.firstName + " " + user.lastName,
     });
   } catch (error) {}
 };

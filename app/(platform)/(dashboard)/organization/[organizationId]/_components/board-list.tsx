@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import db from "@/lib/db";
 import { FormPopover } from "@/components/form/form-popover";
 import { Hint } from "@/components/hint";
 import { HelpCircle, User2 } from "lucide-react";
@@ -9,6 +9,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getAvailableCount } from "@/lib/org-limit";
 import { MAX_FREE_BOARDS } from "@/constants/board";
 import { checkSubscription } from "@/lib/subscription";
+import { boards } from "@/lib/db/schema";
+import { eq, desc } from "drizzle-orm";
 
 export const BoardList = async () => {
   const { orgId } = await auth();
@@ -17,13 +19,9 @@ export const BoardList = async () => {
     return redirect("/select-org");
   }
 
-  const boards = await prisma.board.findMany({
-    where: {
-      orgId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+  const boardsList = await db.query.boards.findMany({
+    where: eq(boards.orgId, orgId),
+    orderBy: [desc(boards.createdAt)],
   });
 
   const availableCount = await getAvailableCount();
@@ -36,7 +34,7 @@ export const BoardList = async () => {
         Your boards
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        {boards.map((board) => (
+        {boardsList.map((board) => (
           <Link
             href={`/board/${board.id}`}
             key={board.id}

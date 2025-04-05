@@ -1,8 +1,10 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma";
+import db from "@/lib/db";
 import { ActivityItem } from "@/components/activity-item";
 import { Skeleton } from "@/components/ui/skeleton";
+import { auditLogs } from "@/lib/db/schema";
+import { eq, desc } from "drizzle-orm";
 
 export const ActivityList = async () => {
   const { orgId } = await auth();
@@ -11,13 +13,9 @@ export const ActivityList = async () => {
     redirect("/select-org");
   }
 
-  const auditLogs = await prisma.auditLog.findMany({
-    where: {
-      orgId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+  const logs = await db.query.auditLogs.findMany({
+    where: eq(auditLogs.orgId, orgId),
+    orderBy: [desc(auditLogs.createdAt)],
   });
 
   return (
@@ -25,7 +23,7 @@ export const ActivityList = async () => {
       <p className="hidden last:block text-xs text-center text-muted-foreground">
         No activity found inside this organization
       </p>
-      {auditLogs.map((log) => (
+      {logs.map((log) => (
         <ActivityItem key={log.id} auditLog={log} />
       ))}
     </ol>

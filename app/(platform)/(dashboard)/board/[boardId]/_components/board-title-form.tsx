@@ -1,12 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Board } from "@prisma/client";
 import { FormInput } from "@/components/form/form-input";
 import { ComponentRef, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useAction } from "@/hooks/use-action";
 import { updateBoard } from "@/actions/update-board";
+import { InferSelectModel } from "drizzle-orm";
+import { boards } from "@/lib/db/schema";
+
+type Board = InferSelectModel<typeof boards>;
 
 interface BoardTitleFormProps {
   data: Board;

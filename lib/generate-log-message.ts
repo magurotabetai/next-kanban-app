@@ -1,13 +1,17 @@
-import { AuditLog, ACTION } from "@prisma/client";
+import { InferSelectModel } from "drizzle-orm";
+import { auditLogs } from "@/lib/db/schema";
+
+type AuditLog = InferSelectModel<typeof auditLogs>;
+
 export const generateLogMessage = (log: AuditLog) => {
   const { action, entityType, entityTitle } = log;
 
   switch (action) {
-    case ACTION.CREATE:
+    case "CREATE":
       return `created ${entityType.toLowerCase()} ${entityTitle}`;
-    case ACTION.UPDATE:
+    case "UPDATE":
       return `updated ${entityType.toLowerCase()} ${entityTitle}`;
-    case ACTION.DELETE:
+    case "DELETE":
       return `deleted ${entityType.toLowerCase()} ${entityTitle}`;
     default:
       return `unkown action ${entityType.toLowerCase()} ${entityTitle}`;

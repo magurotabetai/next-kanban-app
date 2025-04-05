@@ -1,7 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
-import prisma from "@/lib/prisma";
-import { ENTITY_TYPE } from "@prisma/client";
+import db from "@/lib/db";
 import { NextResponse } from "next/server";
+import { auditLogs } from "@/lib/db/schema";
+import { eq, and, desc } from "drizzle-orm";
 
 export async function GET(
   _request: Request,
@@ -14,21 +15,19 @@ export async function GET(
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const { cardId } = await params
+    const { cardId } = await params;
 
-    const auditLogs = await prisma.auditLog.findMany({
-      where: {
-        orgId,
-        entityId: cardId,
-        entityType: ENTITY_TYPE.CARD,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-      take: 3,
+    const logs = await db.query.auditLogs.findMany({
+      where: and(
+        eq(auditLogs.orgId, orgId),
+        eq(auditLogs.entityId, cardId),
+        eq(auditLogs.entityType, "CARD")
+      ),
+      orderBy: [desc(auditLogs.createdAt)],
+      limit: 3,
     });
 
-    return NextResponse.json(auditLogs);
+    return NextResponse.json(logs);
   } catch (error) {
     return new Response("Internal server error", { status: 500 });
   }
