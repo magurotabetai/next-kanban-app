@@ -3,7 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ListContainer } from "./_components/list-container";
 import { lists, cards } from "@/lib/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, asc } from "drizzle-orm";
 
 interface BoardIdPageProps {
   params: Promise<{ boardId: string }>;
@@ -25,7 +25,7 @@ const BoardIdPage = async ({ params }: BoardIdPageProps) => {
     ),
     with: {
       cards: {
-        orderBy: (cards, { asc }) => [asc(cards.order)],
+        orderBy: [asc(cards.order)],
       },
     },
     orderBy: (lists, { asc }) => [asc(lists.order)],
