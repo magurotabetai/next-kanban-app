@@ -11,10 +11,7 @@ import { Header } from "./header";
 import { Description } from "./description";
 import { Actions } from "./actions";
 import { Activity } from "./activity";
-import { InferSelectModel } from "drizzle-orm";
-import { auditLogs } from "@/lib/db/schema";
-
-type AuditLog = InferSelectModel<typeof auditLogs>;
+import { AuditLog } from "@/lib/db/schema";
 
 export const CardModal = () => {
   const id = useCardModal((state) => state.id);

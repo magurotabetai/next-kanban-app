@@ -3,10 +3,7 @@
 import { ActivityItem } from "@/components/activity-item";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ActivityIcon } from "lucide-react";
-import { InferSelectModel } from "drizzle-orm";
-import { auditLogs } from "@/lib/db/schema";
-
-type AuditLog = InferSelectModel<typeof auditLogs>;
+import { AuditLog } from "@/lib/db/schema";
 
 interface ActivityProps {
   auditLogs: AuditLog[];

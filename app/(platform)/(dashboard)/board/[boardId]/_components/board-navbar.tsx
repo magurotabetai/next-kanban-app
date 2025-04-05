@@ -1,9 +1,6 @@
 import { BoardTitleForm } from "./board-title-form";
 import { BoardOptions } from "./board-options";
-import { InferSelectModel } from "drizzle-orm";
-import { boards } from "@/lib/db/schema";
-
-type Board = InferSelectModel<typeof boards>;
+import { Board } from "@/lib/db/schema";
 
 interface BoardNavBarProps {
   data: Board;

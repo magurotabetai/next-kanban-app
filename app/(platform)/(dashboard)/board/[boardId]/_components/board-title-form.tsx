@@ -6,10 +6,7 @@ import { ComponentRef, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useAction } from "@/hooks/use-action";
 import { updateBoard } from "@/actions/update-board";
-import { InferSelectModel } from "drizzle-orm";
-import { boards } from "@/lib/db/schema";
-
-type Board = InferSelectModel<typeof boards>;
+import { Board } from "@/lib/db/schema";
 
 interface BoardTitleFormProps {
   data: Board;

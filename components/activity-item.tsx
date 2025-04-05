@@ -1,10 +1,7 @@
 import { format } from "date-fns";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { generateLogMessage } from "@/lib/generate-log-message";
-import { InferSelectModel } from "drizzle-orm";
-import { auditLogs } from "@/lib/db/schema";
-
-type AuditLog = InferSelectModel<typeof auditLogs>;
+import { AuditLog } from "@/lib/db/schema";
 
 interface ActivityProps {
   auditLog: AuditLog;

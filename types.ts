@@ -1,8 +1,6 @@
-import { InferSelectModel } from "drizzle-orm";
-import { cards, lists } from "@/lib/db/schema";
+import { List, Card } from "@/lib/db/schema";
 
-export type List = InferSelectModel<typeof lists>;
-export type Card = InferSelectModel<typeof cards>;
+export type { List, Card };
 
 export type ListWithCards = List & {
   cards: Card[];

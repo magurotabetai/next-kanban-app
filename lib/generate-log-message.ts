@@ -1,7 +1,4 @@
-import { InferSelectModel } from "drizzle-orm";
-import { auditLogs } from "@/lib/db/schema";
-
-type AuditLog = InferSelectModel<typeof auditLogs>;
+import { AuditLog } from "@/lib/db/schema";
 
 export const generateLogMessage = (log: AuditLog) => {
   const { action, entityType, entityTitle } = log;

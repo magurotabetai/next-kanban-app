@@ -2,10 +2,7 @@
 
 import { Draggable } from "@hello-pangea/dnd";
 import { useCardModal } from "@/hooks/use-card-modal";
-import { InferSelectModel } from "drizzle-orm";
-import { cards } from "@/lib/db/schema";
-
-type Card = InferSelectModel<typeof cards>;
+import { Card } from "@/lib/db/schema";
 
 interface CardItemProps {
   data: Card;

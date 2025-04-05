@@ -97,3 +97,21 @@ export const orgSubscriptions = sqliteTable("org_subscriptions", {
     mode: "timestamp",
   }),
 });
+
+export type Board = typeof boards.$inferSelect;
+export type NewBoard = typeof boards.$inferInsert;
+
+export type List = typeof lists.$inferSelect;
+export type NewList = typeof lists.$inferInsert;
+
+export type Card = typeof cards.$inferSelect;
+export type NewCard = typeof cards.$inferInsert;
+
+export type AuditLog = typeof auditLogs.$inferSelect;
+export type NewAuditLog = typeof auditLogs.$inferInsert;
+
+export type OrgLimit = typeof orgLimits.$inferSelect;
+export type NewOrgLimit = typeof orgLimits.$inferInsert;
+
+export type OrgSubscription = typeof orgSubscriptions.$inferSelect;
+export type NewOrgSubscription = typeof orgSubscriptions.$inferInsert;
