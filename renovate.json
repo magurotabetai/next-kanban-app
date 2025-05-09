@@ -9,6 +9,14 @@
   "rangeStrategy": "bump",
   "packageRules": [
     {
+      "excludePackageNames": [
+        "@libsql/client",
+        "@prisma/client",
+        "@prisma/adapter-libsql",
+        "prisma"
+      ]
+    },
+    {
       "matchUpdateTypes": [
         "patch",
         "minor"
